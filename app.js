@@ -12,6 +12,7 @@ require('./db')
 
 //Routes
 const userRouter = require('./routes/user')
+const authRouter = require('./routes/auth')
 
 dotenv.config()
 
@@ -22,5 +23,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/user', userRouter)
+app.use('/api/auth', authRouter)
 
 module.exports = app
