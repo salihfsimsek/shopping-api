@@ -51,13 +51,27 @@ router.get('/:id', verifyToken, authorizationCheck, async (req, res) => {
     }
 })
 
-//Get users all carts
+//Get users all orders
 router.get('/', verifyToken, authorizationCheck, async (req, res) => {
     try {
         const orders = await OrderService.findAll()
         res.status(200).send(orders)
     } catch (err) {
         res.status(400).send(err)
+    }
+})
+
+//Get monthly income
+router.get('/income', verifyToken, adminCheck, async (req, res) => {
+    const date = new Date()
+    const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
+    const prevMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1))
+
+    try {
+        const income = await OrderService.totalIncome(prevMonth, lastMonth)
+        res.status(200).send(income)
+    } catch (err) {
+        res.status(500).send(err)
     }
 })
 
